@@ -1,4 +1,4 @@
-int N = 800;
+int N = 500;
 int A = 50;
 float k = 1 / 3.;
 
@@ -8,8 +8,8 @@ float[] x = new float[N];
 float[] ySignal = new float[N];
 float[] yCarrier = new float[N];
 float[] yOutput = new float[N];
-float carrierPhase = 0, outputPhase = 0;
-float signalMax = 50, carrierMin = 5;
+float carrierPhase = 0;
+float signalMax = 50, carrierMin = 10;
 
 int i;
 boolean isPaused = false;
@@ -24,7 +24,7 @@ void setup() {
   
   signal_y0 = height / 4;
   carrier_y0 = 2 * height / 4;
-  output_y0 = 3 * height / 4;  
+  output_y0 = 3 * height / 4;
 }
 
 void draw() {
@@ -38,6 +38,8 @@ void draw() {
     if (u < -signalMax) u = -signalMax;
     ySignal[0] = u;
   }
+  
+  simulateOutput();
   
   stroke(0, 255, 0);
   line(0, signal_y0, width, signal_y0);
@@ -55,9 +57,7 @@ void draw() {
   if (!isPaused) {
     advanceSignal();
     advanceCarrier();
-    advanceOutput();
   }
-  
 }
 
 void keyPressed() {
@@ -70,8 +70,8 @@ void resetWaves() {
   for (i = 0; i < N; i ++) {
     x[i] = (i + .5) * width / N;
     ySignal[i] = 0;
-    yCarrier[i] = -A * sin(k * x[i]);
-    yOutput[i] = yCarrier[i];
+    yCarrier[i] = A * sin(k * x[i]);
+    yOutput[i] = 0;
   }
 }
 
@@ -95,24 +95,10 @@ void advanceSignal() {
 }
 
 void advanceCarrier() {
-  carrierPhase += x[1] - x[0];
+  carrierPhase -= x[1] - x[0];
   for (i = N - 1; i > 0; i --) {
     yCarrier[i] = yCarrier[i-1];
   }
   yCarrier[0] = A * sin(k * carrierPhase);
 }
 
-void advanceOutput() {
-  float signal, prevSignal;
-  
-  signal = -ySignal[0] / 200.;
-  prevSignal = -ySignal[1] / 200.;
-  
-  for (i = N - 1; i > 0; i --) {
-    yOutput[i] = yOutput[i-1];
-  }
-//  outputPhase -= (1 + signal / k) * (x[1] - x[0]);
-  outputPhase += (x[1] - x[0]) * (k + signal);
-  outputPhase %= 2 * PI;
-  yOutput[0] = A * sin(outputPhase);
-}

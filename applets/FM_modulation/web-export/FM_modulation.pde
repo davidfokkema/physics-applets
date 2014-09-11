@@ -71,6 +71,7 @@ void resetWaves() {
     x[i] = (i + .5) * width / N;
     ySignal[i] = 0;
     yCarrier[i] = -A * sin(k * x[i]);
+//    yCarrier[i] = 0;
     yOutput[i] = yCarrier[i];
   }
 }
@@ -116,3 +117,4 @@ void advanceOutput() {
   outputPhase %= 2 * PI;
   yOutput[0] = A * sin(outputPhase);
 }
+
