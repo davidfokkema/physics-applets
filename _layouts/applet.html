@@ -1,0 +1,19 @@
+---
+layout: default
+use_processingjs: true
+---
+
+<div class="applet">
+  <div>
+    <canvas data-processing-sources="{{ page.applet | prepend: site.baseurl/applets/ }}"
+        width="800" height="600">
+      <p>Your browser does not support the canvas tag.</p>
+      <!-- Note: you can put any alternative content here. -->
+    </canvas>
+    <noscript>
+      <p>JavaScript is required to view the contents of this page.</p>
+    </noscript>
+    </div>
+</div>
+
+{{ content }}

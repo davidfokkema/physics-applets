@@ -10,5 +10,9 @@ url: "http://davidfokkema.github.io" # the base hostname & protocol for your sit
 twitter_username: davidfokkema
 github_username:  davidfokkema
 
+collections:
+  applets:
+    output: true
+
 # Build settings
 markdown: kramdown
