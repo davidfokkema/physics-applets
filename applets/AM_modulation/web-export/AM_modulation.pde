@@ -1,4 +1,4 @@
-int N = 500;
+int N = 600;
 int A = 50;
 float k = 1 / 3.;
 
@@ -17,10 +17,11 @@ boolean isPaused = false;
 
 void setup() {
   size(800, 600);
+  smooth();
   strokeWeight(2);
   resetWaves();
   
-  frameRate(30);
+  frameRate(40);
   
   signal_y0 = height / 4;
   carrier_y0 = 2 * height / 4;

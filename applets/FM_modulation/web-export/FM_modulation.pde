@@ -1,6 +1,7 @@
-int N = 800;
+int N = 600;
 int A = 50;
 float k = 1 / 3.;
+float s = 1.2;
 
 int signal_y0, carrier_y0, output_y0;
 
@@ -17,10 +18,11 @@ boolean isPaused = false;
 
 void setup() {
   size(800, 600);
+  smooth();
   strokeWeight(2);
   resetWaves();
   
-  frameRate(30);
+  frameRate(40);
   
   signal_y0 = height / 4;
   carrier_y0 = 2 * height / 4;
@@ -71,7 +73,6 @@ void resetWaves() {
     x[i] = (i + .5) * width / N;
     ySignal[i] = 0;
     yCarrier[i] = -A * sin(k * x[i]);
-//    yCarrier[i] = 0;
     yOutput[i] = yCarrier[i];
   }
 }
@@ -104,16 +105,14 @@ void advanceCarrier() {
 }
 
 void advanceOutput() {
-  float signal, prevSignal;
+  float signal;
   
-  signal = -ySignal[0] / 200.;
-  prevSignal = -ySignal[1] / 200.;
+  signal = -ySignal[0] / (s * signalMax);
   
   for (i = N - 1; i > 0; i --) {
     yOutput[i] = yOutput[i-1];
   }
-//  outputPhase -= (1 + signal / k) * (x[1] - x[0]);
-  outputPhase += (x[1] - x[0]) * (k + signal);
+  outputPhase += (x[1] - x[0]) * (k * pow(2, signal));
   outputPhase %= 2 * PI;
   yOutput[0] = A * sin(outputPhase);
 }
