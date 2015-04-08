@@ -10,8 +10,7 @@ var sources = [];
 
 function setup() {
   createCanvas(displayWidth, displayHeight);
-  stroke(255);
-  console.log(cStep);
+  strokeWeight(3);
 }
 
 function draw() {
@@ -33,17 +32,30 @@ function draw() {
     var cx = sources[i][0];
     var cy = sources[i][1];
     var radius = i * radiusInterval + intervalScaler * dt;
-    // ellipse(cx, cy, radius, radius);
 
     var x0 = radius + cx;
     var y0 = cy;
     for (j = cStep; j < TWO_PI + .5 * cStep; j += cStep) {
       var x = radius * cos(j) + cx;
       var y = radius * sin(j) + cy;
+
+      if (i > 0) {
+        var z = dist(x, y, pcx, pcy) / radius;
+      }
+      else {
+        var z = 1.;
+      }
+
+      red = color(255, 0, 0);
+      blue = color(0, 0, 255);
+      stroke(lerpColor(blue, red, z));
       line(x0, y0, x, y);
       x0 = x;
       y0 = y;
     }
+
+    var pcx = cx;
+    var pcy = cy;
   }
 }
 
