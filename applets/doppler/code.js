@@ -1,6 +1,6 @@
 var interval = 1000;
-var radiusInterval = 90;
-var cSteps = 4;
+var radiusInterval = 50;
+var cSteps = 30;
 
 var intervalScaler = radiusInterval / interval;
 var cStep = 2 * Math.PI / cSteps;
@@ -8,10 +8,17 @@ var cStep = 2 * Math.PI / cSteps;
 var t0 = 0;
 var sources = [];
 
+var red, blue, white;
+
+
 function setup() {
   createCanvas(displayWidth, displayHeight);
   strokeWeight(3);
   noFill();
+
+  red = color(255, 0, 0);
+  blue = color(0, 0, 255);
+  white = color(255);
 }
 
 function draw() {
@@ -19,6 +26,7 @@ function draw() {
   var dt = t - t0;
 
   background(0);
+  noFill();
 
   if (dt >= interval) {
     t0 = t;
@@ -29,16 +37,41 @@ function draw() {
     }
   }
 
-  for (i = 0; i < sources.length; i ++) {
+  var prevPoints = null;
+  for (i = sources.length - 1; i >= 0; i --) {
     var cx = sources[i][0];
     var cy = sources[i][1];
     var radius = i * radiusInterval + intervalScaler * dt;
 
-    for (j = 0; j < TWO_PI; j += cStep) {
-      stroke(lerpColor(color(255, 0, 0), color(0, 0, 255), (j + .5 * cStep) / TWO_PI));
-      arc(cx, cy, radius, radius, j, j + cStep);
+    var points = [];
+    for (j = 0; j < cSteps; j ++) {
+      start = j * cStep;
+      centerValue = (j + .5) * cStep;
+      stop = (j + 1) * cStep;
+      x = radius * cos(centerValue) + cx;
+      y = radius * sin(centerValue) + cy;
+      points.push([x, y]);
+
+      if (prevPoints) {
+        r = dist(x, y, prevPoints[j][0], prevPoints[j][1]) / radiusInterval;
+        if (r < 1.) {
+          stroke(lerpColor(blue, white, r));
+        } else {
+          stroke(lerpColor(red, white, 1 / r));
+        }
+      }
+      else {
+        stroke(white);
+      }
+      arc(cx, cy, radius * 2, radius * 2, start, stop);
     }
+
+    prevPoints = points;
   }
+
+  fill();
+  stroke(white);
+  ellipse(mouseX, mouseY, 5, 5);
 }
 
 function mouseClicked() {
