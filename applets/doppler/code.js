@@ -1,6 +1,6 @@
 var interval = 1000;
 var radiusInterval = 90;
-var cSteps = 50;
+var cSteps = 4;
 
 var intervalScaler = radiusInterval / interval;
 var cStep = 2 * Math.PI / cSteps;
@@ -11,6 +11,7 @@ var sources = [];
 function setup() {
   createCanvas(displayWidth, displayHeight);
   strokeWeight(3);
+  noFill();
 }
 
 function draw() {
@@ -23,7 +24,7 @@ function draw() {
     t0 = t;
     dt = 0;
     sources.unshift([mouseX, mouseY]);
-    if (sources.length * radiusInterval > 2 * width) {
+    if (sources.length * radiusInterval > 1.5 * width) {
       sources.pop();
     }
   }
@@ -33,29 +34,10 @@ function draw() {
     var cy = sources[i][1];
     var radius = i * radiusInterval + intervalScaler * dt;
 
-    var x0 = radius + cx;
-    var y0 = cy;
-    for (j = cStep; j < TWO_PI + .5 * cStep; j += cStep) {
-      var x = radius * cos(j) + cx;
-      var y = radius * sin(j) + cy;
-
-      if (i > 0) {
-        var z = dist(x, y, pcx, pcy) / radius;
-      }
-      else {
-        var z = 1.;
-      }
-
-      red = color(255, 0, 0);
-      blue = color(0, 0, 255);
-      stroke(lerpColor(blue, red, z));
-      line(x0, y0, x, y);
-      x0 = x;
-      y0 = y;
+    for (j = 0; j < TWO_PI; j += cStep) {
+      stroke(lerpColor(color(255, 0, 0), color(0, 0, 255), (j + .5 * cStep) / TWO_PI));
+      arc(cx, cy, radius, radius, j, j + cStep);
     }
-
-    var pcx = cx;
-    var pcy = cy;
   }
 }
 
