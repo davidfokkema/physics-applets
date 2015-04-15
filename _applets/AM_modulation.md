@@ -2,7 +2,6 @@
 layout: applet
 title: AM modulation
 applet: AM_modulation.pde
-use_processingjs: true
 ---
 
 Basic demonstration of amplitude modulation.  The signal is at the top,

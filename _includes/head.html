@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
 
-    {% if page.use_processingjs %}
+    {% if layout.use_processingjs %}
     <!--[if lt IE 9]>
         <script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
     <![endif]-->

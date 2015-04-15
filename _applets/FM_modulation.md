@@ -2,7 +2,6 @@
 layout: applet
 title: FM modulation
 applet: FM_modulation.pde
-use_processingjs: true
 ---
 
 Basic demonstration of frequency modulation.  The signal is at the top,
