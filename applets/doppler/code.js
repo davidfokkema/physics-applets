@@ -12,7 +12,8 @@ var red, blue, white;
 
 
 function setup() {
-  createCanvas(displayWidth, displayHeight);
+  canvas = createCanvas(800, 500);
+  canvas.parent("applet");
   strokeWeight(3);
   noFill();
 
