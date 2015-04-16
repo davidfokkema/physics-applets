@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
 
-    {% if page.use_processingjs %}
+    {% if layout.use_processingjs %}
     <!--[if lt IE 9]>
         <script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
     <![endif]-->
@@ -21,5 +21,9 @@
 		margin-bottom: 1.5em;
 	}
     </style>
+    {% endif %}
+
+    {% if layout.use_p5js %}
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.3/p5.js"></script>
     {% endif %}
 </head>

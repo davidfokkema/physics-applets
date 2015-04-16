@@ -2,7 +2,6 @@
 layout: applet
 title: Transverse wave (fixed end)
 applet: transverse_wave.pde
-use_processingjs: true
 ---
 
 To move the left end of the string up and down, click or click and drag in
